@@ -40,9 +40,9 @@ public class DocxToHtml {
         InputStream in = null;
         String result = "";
         try {
-            in = new FileInputStream(new File("/home/raghav/StandardChartered-Flat.docx.docx"));
+            in = new FileInputStream(new File("/home/raghav/Desktop/Axis-Flat.docxr.docx"));
             XWPFDocument document = new XWPFDocument(in);
-            XHTMLOptions options = XHTMLOptions.create().URIResolver(new FileURIResolver(new File("/home/raghav/zzzzAxis-Flat_docxb.html")));
+            XHTMLOptions options = XHTMLOptions.create().URIResolver(new FileURIResolver(new File("/home/raghav/yzzzzAxis-Flat_docxb.html")));
             OutputStream out = new ByteArrayOutputStream();
             XHTMLConverter.getInstance().convert(document, out, options);
             String html = out.toString();
@@ -52,39 +52,29 @@ public class DocxToHtml {
             Matcher m = r.matcher(html);
             String htmlCopy = html;
             int index = 0;
-            //List<TagModel> tagModels = new ArrayList<>();
-//            while (m.find()) {
-//
-//                System.out.println(m.group());
-//                String replaceText = html.substring(m.start(), findTagEndIndex(html, m.end()));
-//                // tagModels.add(new TagModel(replaceText, ""));
-//
-////                htmlCopy = htmlCopy.replace(replaceText, "<span style='border-bottom: 3px solid grey' ng-model='tagModel[" + replaceText + "]' contenteditable='true'  id='" + replaceText + "' ng-mouseover='showCommentContent(\"" + replaceText + "\")' ng-dblclick='showCommentBox(\"" + replaceText + "\")'>" + replaceText + "_</span>");
-////                index++;
-//
-// htmlCopy = htmlCopy.replace(replaceText, "<span contenteditable  strip-br='true' style='border-bottom: 3px solid grey' ng-model='tagModel["+ replaceText +"]'   id='" + replaceText + "' ng-mouseover='showCommentContent(\"" + replaceText + "\")' ng-dblclick='showCommentBox(\"" + replaceText + "\")'>" + replaceText + "_</span>");
-////               
-//            }
 
-//htmlCopy=htmlCopy.replaceAll("[\bstyle=\"width: pt\b]", "style=\"width: 97%");
-           // htmlCopy = htmlCopy.replaceAll("<style>.*?</style>", "");
+            htmlCopy = htmlCopy.replaceAll("</table>", "</table><br>");
 
+            htmlCopy = htmlCopy.replaceAll("<style>.*?</style>", "");
             htmlCopy = htmlCopy.replaceAll("style=\\\"width:.*?pt", "style=\\\"width:100%");
-            
-           
-            
-            
+
             htmlCopy = htmlCopy.replaceAll("style=\"", "style=\"word-wrap: break-word; ");
-            htmlCopy=htmlCopy.replaceAll("", "<td class=\"TableNormal Table3\" style=\"word-wrap: break-word; background-color:#ece8f1;border-top:0.5px solid #000000;border-bottom:0.5px solid #000000;border-left:0.5px solid #000000;border-right:0.5px solid #000000;\">");
-//            htmlCopy = htmlCopy.replaceAll("<td class=\"TableNormal Table2\" style.*?\"", "<td ");
-//            htmlCopy = htmlCopy.replaceAll("<td class=\"TableNormal Table3\" style.*?\"", "<td ");
-           htmlCopy = htmlCopy.replaceAll("margin.*?;", "");
-           // htmlCopy = htmlCopy.replaceAll("<td ", "<td style=\"word-break: break-all;\"");
-//          htmlCopy = htmlCopy.replaceAll("<td style=\"border:1px solid black;word-break: break-all;\"class=\"TableNormal Table1\">", "<td style=\"word-break: break-all;\"class=\"TableNormal Table1\">");
+
+           // String[] bd = {"Table3", "Table5", "Table8"};
+            String[] bd = {};
+
+            for (int o = 0; o < bd.length; o++) {
+                htmlCopy = htmlCopy.replaceAll("<td class=\"TableNormal " + bd[o] + "\" style=\".*?\"", "<td class=\"TableNormal " + bd[o] + "\"");
+                htmlCopy = htmlCopy.replaceAll("<td class=\"TableNormal " + bd[o] + "\"", "<tid align=\"left\" class=\"TableNormal " + bd[o] + "\" style=\"padding:10px 10px 10px 10px;border:1px solid black;word-break: break-all;\"");
+
+            }
+           // htmlCopy = htmlCopy.replaceAll("<td ", "<td align=\"left\" style= \"padding:10px 10px 10px 0px;\" ");
+
+            htmlCopy = htmlCopy.replaceAll("<tid ", "<td ");
+            htmlCopy = htmlCopy.replaceAll("margin.*?;", "");
             htmlCopy = htmlCopy.replaceAll("<body>", "<body><div style=\"margin-left:20px;margin-right:20px\">");
             htmlCopy = htmlCopy.replaceAll("</body>", "</div></body>");
-//            
-//            htmlCopy = htmlCopy.replaceAll("border-collapse:collapse", "border:1px solid black");
+
             result = htmlCopy.replaceAll(">", ">\n");
 
             int ind = 1;
@@ -103,42 +93,7 @@ public class DocxToHtml {
 
             result = result.replaceAll("<_p", "<p");
 
-//            htmlCopy = result;
-//            String pattern2 = "<p";
-//            Pattern r2 = Pattern.compile(pattern2);
-//            Matcher m2 = r2.matcher(htmlCopy);
-//            int index = 1;
-//            Map<Integer, String> output = new HashMap<>();
-//            Map<Integer, Integer> outputIndex = new HashMap<>();
-//            List<Integer> matchedIndexes = new ArrayList<>();
-//
-//            while (m2.find()) {
-//
-////                System.out.println(m.group());
-//                // String replaceText = result.substring(m2.start());
-//                String textUptoElement = htmlCopy.substring(0, m2.start());
-//                String textAfterElement = htmlCopy.substring(m2.start() + 2, result.length() - 1);
-//
-//                String customText = "<p contenteditable='true' id='version_" + documentVersionId + "_" + index + "'";
-//
-//                if (matchedIndexes.stream().noneMatch(mi -> mi == m2.start())) {
-//                    matchedIndexes.add(m2.start());
-//
-////                    if (index == 1) {
-////                        output.put(m2.start(), customText);
-////                        outputIndex.put(index, m2.start());
-////                    } else {
-////                        int customTextAddedLength = output.get(outputIndex.get(index - 1)).length();
-////                        output.put(m2.start() + customTextAddedLength, customText);
-////                    }
-//
-//                    
-//
-//                    index++;
-//              }
-            // htmlCopy = textUptoElement + customText + textAfterElement;
-            //           }
-            // result = htmlCopy;
+
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -151,7 +106,7 @@ public class DocxToHtml {
             }
         }
 
-        Path outputPath = Paths.get("/home/raghav/xyzzst.html");
+        Path outputPath = Paths.get("/home/raghav/yxAxis.html");
 
         try (BufferedWriter writer = Files.newBufferedWriter(outputPath)) {
             writer.append(result);
@@ -187,3 +142,43 @@ class TagModel {
     }
 
 }
+
+
+// public static void main(String[] args) {
+//        String s="<span class=SpellE>sft</span>ooooo<span class=SpellE>sft</span>ppp<span class=SpellE>sft</span>";
+//        String t = s.replaceAll("<span[^</span>]*>", "*");
+//        System.out.println(t);
+//        
+////        BufferedReader br = new BufferedReader(new FileReader("/home/raghav/Desktop/Axis-Flat-new.html"));
+////        StringBuilder sb = new StringBuilder();
+////        try {
+////            
+////            String line = br.readLine();
+////
+////            while (line != null) {
+////                sb.append(line);
+////                sb.append("\n");
+////                line = br.readLine();
+////            }
+////            
+////        } finally {
+////            br.close();
+////        }
+////        
+////    String s=sb.toString().replace("\n", "");
+////    
+////        String t = s.replaceAll("_<span[^</span>]*</span>", "");
+////        //System.out.println(t);
+////        t=t.replaceAll(">", ">\n");
+////        t=t.replaceAll(";", ";\n");
+////
+////        Path outputPath = Paths.get("/home/raghav/xxxxxyxAxis.html");
+////
+////        try (BufferedWriter writer = Files.newBufferedWriter(outputPath)) {
+////            writer.append(t);
+////        } catch (Exception ex) {
+////            ex.printStackTrace();
+////        }
+//
+//       
+//    }
